@@ -11,6 +11,7 @@ do
     COUNTER=$((COUNTER+1))
     HOSTS+=($test)
     echo "Connected to: " $test " Count: " ${#HOSTS[@]}
+    echo -e "$test\n" >> hosts.txt
     ssh $test 'cd ~/Downloads/spark-master; ./sbin/start-slave.sh ' $1
     echo "Starting slave on host"
   elif [[ ${#HOSTS[@]} -eq 20 ]] ; then
