@@ -1,3 +1,5 @@
 venv/
 .git/
 data/
+hosts.txt
+spark-warehouse/

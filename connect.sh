@@ -1,7 +1,18 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]; then
+    echo "No spark url supplied"
+    exit
+fi
+
+rm -f -- hosts.txt  # Delete hosts file if it exists, so we don't append hosts that don't exist
+
 SPARK_URL=$1
 echo "Spark url: " $1
+
 COUNTER=0
 HOSTS=()
+
 for i in $(seq -f "%03g" 1 150)
 do
   test=pc2-${i}-l.cs.st-andrews.ac.uk
@@ -11,9 +22,8 @@ do
     COUNTER=$((COUNTER+1))
     HOSTS+=($test)
     echo "Connected to: " $test " Count: " ${#HOSTS[@]}
-    echo -e "$test\n" >> hosts.txt
-    ssh $test 'cd ~/Downloads/spark-master; ./sbin/start-slave.sh ' $1
-    echo "Starting slave on host"
+    echo -e "$test" >> hosts.txt
+    ssh $test 'cd /cs/unique/ls99-kf39-cs5052/data/tweets; cd ~/Downloads/spark-master; ./sbin/start-slave.sh ' $1
   elif [[ ${#HOSTS[@]} -eq 20 ]] ; then
     echo "Got enough hosts"
     break

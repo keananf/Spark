@@ -1,9 +1,27 @@
 from pyspark import SparkContext, SparkConf
-from pyspark.sql import SparkSession, SQLContext
+from pyspark.sql import SparkSession
 
 
-remote_conf = SparkConf().setAppName('sparkTest').setMaster('spark://pc2-119-l.cs.st-andrews.ac.uk:7077')
-local_conf = SparkConf().setAppName('sparkTest').setMaster('local')
+class SparkInteraction(object):
+    """
+    Wrapper class for spark interaction via either context or sql session
+    """
+    def __init__(self, appname='test', master='local'):
+        self.appname = appname
+        self.master = master
+        self.conf = SparkConf().setAppName(self.appname).setMaster(self.master)
 
-sparkContext = SparkContext(conf=local_conf)
-sparkSql = SparkSession.builder.config(conf=local_conf).getOrCreate()
+    def context(self):
+        """
+        Create a plain spark context at the url specified in self.master
+        :return: SparkContext
+        """
+        return SparkContext(conf=self.conf)
+
+    def session(self):
+        """
+        Create spark SQL Session - useful for structuring unstructured data, e.g. JSON
+        :return: SQL Session
+        """
+        return SparkSession.builder.config(conf=self.conf).getOrCreate()
+
