@@ -2,7 +2,7 @@ from pyspark import SparkContext, SparkConf
 from pyspark.sql import SparkSession
 
 
-class SparkInteraction(object):
+class Spark(object):
     """
     Wrapper class for spark interaction via either context or sql session
     """

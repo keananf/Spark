@@ -46,18 +46,3 @@ def remove_duplicates(data):
 
     data = data.drop(data.index[to_remove_idx])
     return data
-
-
-def clean_tweets(data):
-    """
-    Clean the tweet data
-    :param data: Pandas dataframe of tweet data
-    :return: Cleaned version
-    """
-    data['text'] = data['text'].apply(lower_case)
-    data['text'] = data['text'].apply(strip_urls)
-    data['text'] = data['text'].apply(strip_whitespace)
-    data['text'] = data['text'].apply(strip_amp)
-    data['text'] = data['text'].apply(strip_ellipsis)
-    data['text'] = data['text'].apply(strip_punctuation)
-    return data
