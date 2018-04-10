@@ -102,8 +102,8 @@ def per_currency_correlation(date_parsed_df):
         coin_tweets_agg.dropna().set_index('date', inplace=True)
         coin_tweets_agg.index = pd.to_datetime(coin_tweets_agg.index)
 
-        price = cryptos[coin].weightedAverage.loc[start_date:end_date]
-        price_and_vol = price
+        price_and_vol = cryptos[coin].loc[start_date:end_date]
+        price_and_vol['price'] = price_and_vol.weightedAverage
         price_and_vol['volume'] = coin_tweets_agg['count']
         price_and_vol_nona = price_and_vol.dropna()
 
