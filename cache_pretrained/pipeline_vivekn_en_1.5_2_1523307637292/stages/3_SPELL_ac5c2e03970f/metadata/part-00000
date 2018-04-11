@@ -1,1 +1,0 @@
-{"class":"com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel","timestamp":1523307637730,"sparkVersion":"2.3.0","uid":"SPELL_ac5c2e03970f","paramMap":{"inputCols":["normal"],"doubleVariants":true,"caseSensitive":true,"shortCircuit":false,"outputCol":"spell"}}

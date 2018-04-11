@@ -1,1 +1,0 @@
-{"class":"com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel","timestamp":1523307639765,"sparkVersion":"2.3.0","uid":"VIVEKN_62aa6da47752","paramMap":{"outputCol":"sentiment","positive_totals":123096,"inputCols":["spell","document"],"negative_totals":123096}}
