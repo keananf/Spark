@@ -3,3 +3,6 @@ venv/
 data/
 hosts.txt
 spark-warehouse/
+.idea/
+*.pyc
+*.ipynb_checkpoints
