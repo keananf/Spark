@@ -22,7 +22,7 @@ end_date = pd.Timestamp("2017-11-21")
 
 
 default_loc = "/cs/unique/ls99-kf39-cs5052/data/tweets/*.json"
-default_spark_url = 'spark://pc5-035-l.cs.st-andrews.ac.uk:7077'
+default_spark_url = 'spark://pc2-060-l.cs.st-andrews.ac.uk:7077'
 
 
 def create_session(spark_url):
@@ -36,7 +36,7 @@ def load_dataframe(sess, file_location, schema=schema):
     return df
 
 
-def parse_timestmap(df):
+def parse_timestamp(df):
     df2 = df.withColumn("timestamp", fs.to_timestamp("created_at", tweet_date_format))
     return df2
 
@@ -116,7 +116,7 @@ def per_currency_correlation(date_parsed_df):
 def main():
     sess = create_session(default_spark_url)
     all_tweets = load_dataframe(sess, default_loc, schema)
-    all_tweets_parsed = parse_timestmap(all_tweets)
+    all_tweets_parsed = parse_timestamp(all_tweets)
 
     overall_volume_price_correlation(all_tweets_parsed)
     per_currency_correlation(all_tweets_parsed)
