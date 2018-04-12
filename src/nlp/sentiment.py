@@ -51,10 +51,10 @@ class SentimentAnalyser(object):
 
         train_fit = self._pipeline.transform(train_df)
 
-        if self._negative is None:
-            self._negative = train_fit.filter(train_fit.target == 0).first().label
-        if self._positive is None:
-            self._positive = train_fit.filter(train_fit.target == 1).first().label
+        if self.negative is None:
+            self.negative = train_fit.filter(train_fit.target == 0).first().label
+        if self.positive is None:
+            self.positive = train_fit.filter(train_fit.target == 1).first().label
 
         if self._classifier is None:
             lr = SentimentAnalyser._lr_classifier()
@@ -95,6 +95,21 @@ class SentimentAnalyser(object):
         accuracy = predictions.filter(predictions.label == predictions.prediction).count() / float(predictions.count())
 
         print("RocAuc: %.4f, Accuracy: %.4f" % (bin_rep, accuracy))
+
+    def count_sentiments(self, predictions):
+        """
+        Count the positive and negative sentiment tweets in a set
+        Args:
+            predictions: dataframe of tweet predictions
+
+        Returns:
+            [positives, negatives]
+        """
+        positive = predictions.filter(predictions.prediction == self.positive).count()
+        negative = predictions.filter(predictions.prediction == self.negative).count()
+
+        print("Tweets positive: {:,}, negative: {:,}".format(positive, negative))
+        return positive, negative
 
     @staticmethod
     def _lr_classifier(max_iter=100, reg_param=0.1):
