@@ -105,10 +105,10 @@ class SentimentAnalyser(object):
         Returns:
             [positives, negatives]
         """
-        positive = predictions.filter(predictions.prediction == self.positive).count()
-        negative = predictions.filter(predictions.prediction == self.negative).count()
+        positive = predictions.filter(predictions.prediction == self.positive)
+        negative = predictions.filter(predictions.prediction == self.negative)
 
-        print("Tweets positive: {:,}, negative: {:,}".format(positive, negative))
+        print("Tweets positive: {:,}, negative: {:,}".format(positive.count(), negative.count()))
         return positive, negative
 
     @staticmethod
