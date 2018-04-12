@@ -1,5 +1,5 @@
 import os
-from pyspark.ml.feature import IDF, Tokenizer
+from pyspark.ml.feature import HashingTF, IDF, Tokenizer
 from pyspark.ml.feature import StringIndexer
 from pyspark.ml import Pipeline, PipelineModel
 from pyspark.ml.classification import LogisticRegression, LogisticRegressionModel
@@ -16,6 +16,8 @@ class SentimentAnalyser(object):
         self._pipeline = None
         self._classifier = None
         self._report = BinaryClassificationEvaluator(rawPredictionCol="rawPrediction")
+        self.positive = 0.0
+        self.negative = 1.0
 
     def load(self, pipeline_path, classifier_path):
         """
@@ -48,6 +50,11 @@ class SentimentAnalyser(object):
             self._pipeline = pipeline_trained
 
         train_fit = self._pipeline.transform(train_df)
+
+        if self._negative is None:
+            self._negative = train_fit.filter(train_fit.target == 0).first().label
+        if self._positive is None:
+            self._positive = train_fit.filter(train_fit.target == 1).first().label
 
         if self._classifier is None:
             lr = SentimentAnalyser._lr_classifier()
@@ -116,3 +123,15 @@ class SentimentAnalyser(object):
 
         return Pipeline(
             stages=tokeniser + ngrams + count_vectoriser + inverse_doc_freq + vector_assembler + string_index)
+
+    @staticmethod
+    def simple_tfidf_model(input_col=("text", "target")):
+        tokeniser = Tokenizer(inputCol=input_col[0], outputCol="words")
+        hashtf = HashingTF(numFeatures=2 ** 16, inputCol="words", outputCol="tf")
+        idf = IDF(inputCol="tf", outputCol="features", minDocFreq=5)
+
+        string_index = StringIndexer(inputCol=input_col[1], outputCol="label", handleInvalid="keep")
+        pipeline = Pipeline(stages=[tokeniser, hashtf, idf, string_index])
+
+        return pipeline
+
