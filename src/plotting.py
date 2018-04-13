@@ -2,7 +2,7 @@ import os
 import matplotlib as mpl
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
-from src.settings import IMG_DIR
+from settings import IMG_DIR
 
 mpl.rc('font', size=20)  # controls default text sizes
 mpl.rc('axes', labelsize=20)  # fontsize of the x and y labels
