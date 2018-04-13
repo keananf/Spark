@@ -38,7 +38,7 @@ def double_plot(plots, names, xy_labels, title, xs=None):
     ax.set_ylabel(xy_labels[1])
 
     ax2 = fig.add_subplot(111, sharex=ax, frameon=False)
-    ax2.plot(xs, plots[1], linestyle=line_style, linewidth=linewidth) if xs is not None else ax.plot(plot[0])
+    ax2.plot(xs, plots[1], linestyle=line_style, linewidth=linewidth) if xs is not None else ax.plot(plots[0])
     ax2.yaxis.tick_right()
     ax2.yaxis.set_label_position("right")
     ax2.set_ylabel(xy_labels[2])

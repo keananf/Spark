@@ -48,15 +48,18 @@ def aggregate_by_day(df):
 
 def load_crypto():
     cryptos = {}
-    for subdir, dirs, files in os.walk():
+
+    for subdir, dirs, files in os.walk(CRYPTO_DIR):
         for f in files:
-            fin = os.path.join(subdir, f)
-            name_tokens = f.split("_")
-            crypto = name_tokens[1]
-            coin = pd.read_csv(fin, index_col=0)
-            coin.index = pd.to_datetime(coin.index)
-            coin = coin.loc[start_date:end_date]
-            cryptos[crypto] = coin
+            if f != "crix.csv":
+                print("Loading %s" % f)
+                fin = os.path.join(subdir, f)
+                name_tokens = f.split("_")
+                crypto = name_tokens[1]
+                coin = pd.read_csv(fin, index_col=0)
+                coin.index = pd.to_datetime(coin.index)
+                coin = coin.loc[start_date:end_date]
+                cryptos[crypto] = coin
     return cryptos
 
 
