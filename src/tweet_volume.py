@@ -90,10 +90,15 @@ def overall_volume_price_correlation(date_parsed_df):
 
 
 def per_currency_correlation(date_parsed_df):
-    coins = ['ETH', 'BTC']
+    coins = ['ETH', 'BTC', 'XMR', 'DASH', 'LTC', 'ETC', 'BCH']  #
     hash = {
         'ETH': ['%ethereum%', '%ether%', '%eth%'],
-        'BTC': ['%bitcoin%', '%btc%', '%bitcoin%']
+        'BTC': ['%bitcoin%', '%btc%', '%bitcoin%'],
+        'XMR': ["%monero%", "%xmr%", "%monero%"],
+        'DASH': ["%digital cash%", "%dash%", "%dash%"],
+        'LTC': ["%litecoin%", "%ltc%", "%litecoin%"],
+        'ETC': ["%ethereum classic%", "%etc%", "%eth classic%"],
+        'BCH': ["%bitcoincash%", "%bch%", "%bitcoin cash%"]
     }
     cryptos = load_crypto()
     for coin in coins:
@@ -112,8 +117,8 @@ def per_currency_correlation(date_parsed_df):
 
         print("Market correlation to tweet volume: %.4f" % price_and_vol.corr().price.volume)
 
-        double_plot([price_and_vol_nona.price, price_and_vol_nona.volume], [coin+' Price', 'Tweets'],
-                    ['Date', 'Price', 'Volume'], coin+" Price vs Tweet Volume", price_and_vol_nona.index.tolist())
+        double_plot([price_and_vol_nona.price, price_and_vol_nona.volume], ['%s Price' % coin, 'Tweets'],
+                    ['Date', 'Price', 'Volume'], "%s Price vs Tweet Volume" % coin, price_and_vol_nona.index.tolist())
 
 
 def main():
