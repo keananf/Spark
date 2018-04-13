@@ -24,7 +24,7 @@ start_date = pd.Timestamp("2017-10-10")
 end_date = pd.Timestamp("2017-11-21")
 
 # Location of all tweets in a globally accessible location
-default_loc = "/home/keanan/Documents/CS5052/Practical/tweets/*.json" #"/cs/unique/ls99-kf39-cs5052/data/tweets/*.json"
+default_loc = "/cs/unique/ls99-kf39-cs5052/data/tweets/*.json"
 
 # Spark master location
 default_spark_url = 'local'
