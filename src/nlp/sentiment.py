@@ -19,20 +19,40 @@ class SentimentAnalyser(object):
         self.positive = 0.0
         self.negative = 1.0
 
-    def load(self, pipeline_path, classifier_path):
+    def load(self, save_path):
         """
         Load trained pipelines from disk
         Args:
-            pipeline_path: folder with transformer pipeline data
-            classifier_path: folder with classifier data
+            save_path: folder with transformer pipeline and classifier model
 
         Returns:
             sets self up with models
         """
-        if os.path.exists(pipeline_path):
+        if os.path.exists(save_path):
+            pipeline_path = os.path.join(save_path, "pipeline")
+            classifier_path = os.path.join(save_path, "linreg")
             self._pipeline = PipelineModel.load(pipeline_path)
-        if os.path.exists(classifier_path):
             self._classifier = LogisticRegressionModel.load(classifier_path)
+        else:
+            raise AssertionError("Path to model data does not exist")
+
+    def save(self, save_path):
+        """
+        Save the model to disk for later reuse
+        Args:
+            save_path: path to save the model to
+
+        Returns:
+            None - save model to disk
+        """
+        pipeline_path = os.path.join(save_path, "pipeline")
+        classifier_path = os.path.join(save_path, "classifier")
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+            os.makedirs(pipeline_path)
+            os.makedirs(classifier_path)
+        self._pipeline.save(pipeline_path)
+        self._classifier.save(classifier_path)
 
     def train(self, train_df):
         """
