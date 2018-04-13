@@ -23,5 +23,8 @@ class Spark(object):
         Create spark SQL Session - useful for structuring unstructured data, e.g. JSON
         :return: SQL Session
         """
-        return SparkSession.builder.config(conf=self.conf).config('spark.jars', "/cs/unique/ls99-kf39-cs5052/sparknlp.jar").getOrCreate()
+        return SparkSession.builder.config(conf=self.conf)\
+            .config('spark.jars', "/cs/unique/ls99-kf39-cs5052/sparknlp.jar")\
+            .config("spark.driver.memory", "3g")\
+            .getOrCreate()
 
